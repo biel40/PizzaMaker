@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> Pizza Maker! </title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+
+</head>
+
+<body>
+
+    <header class="container-fluid float-left mb-1 bg-warning">
+
+        <a href="index.html"><img class="col-1 float-left mt-3 mb-3" src="https://cdn0.iconfinder.com/data/icons/food-17/137/Food_icons_pizza-512.png"
+                alt="">
+
+            <h1 class="col-8 mx-auto text-success pt-4 float-left text-center"> PIZZA MAKER </h1>
+
+            <ul class="float-left nav bg-success nav-fill float-left col-2 mt-5 mb-3 rounded">
+                <li class="nav-item">
+                    <a class="nav-link active text-light" href="pizzes.html"> Pizza Hut </a>
+                </li>
+            </ul>
+
+    </header>
+
+    <main class="col-12 float-left bg-light">
+
+        <button id="record" class="btn btn-outline-info">
+            Grabar Pedido
+        </button>
+
+        <button id="stop" class="btn btn-outline-danger">
+            Stop
+        </button>
+
+        <div id="soundClips">
+
+        </div>
+
+        <div id="ticketDiv" class="float-right mr-5">
+            <h2> Precio Base + ingredientes: </h2>
+        </div>
+
+
+        <div id="basePizza" class="text-center" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <img src="./img/base.svg" class="col-5 mx-auto pt-5" style="z-index: 1; position: relative;">
+        </div>
+
+        <div id="soundBillDiv" class="d-flex justify-content-center">
+            <button type="button" class="m-3 btn btn-warning" onclick="playIngredients()"> Play </button>
+            <button type="button" class="m-3 btn btn-outline-warning" onclick="stopIngredients()"> Stop </button>
+        </div>
+
+        <div id="divTotal" class="">
+            <h4 id="h3Total" class="text-danger text-right mr-5"> </h4>
+        </div>
+
+
+        <div id="ingredientsDiv" class="mt-5">
+
+            <h2> Ingredientes: </h2>
+
+            <div id="bellpeper" class="col-1 float-left">
+                <img id="imgBellpeper" src="./img/bellpepper-512.png" class="" width="100px" height="100px" draggable="true"
+                    ondragstart="drag(event)" style="z-index: 2; position: absolute;">
+            </div>
+
+            <div id="cheese" class="col-1 float-left">
+                <img id="imgCheese" src="./img/cheese-512.png" class="" width="100px" height="100px" draggable="true"
+                    ondragstart="drag(event)" style="z-index: 2; position: absolute;">
+            </div>
+
+            <div id="corn" class="col-1 float-left">
+                <img id="imgCorn" src="./img/corn-512.png" class="" width="100px" height="100px" draggable="true"
+                    ondragstart="drag(event)" style="z-index: 2; position: absolute;">
+            </div>
+
+            <div id="mushroom" class="col-1 float-left">
+                <img id="imgMushroom" src="./img/mushroom-512.png" class="" width="100px" height="100px" draggable="true"
+                    ondragstart="drag(event)" style="z-index: 2; position: absolute;">
+            </div>
+
+            <div id="olive" class="col-1 float-left">
+                <img id="imgOlive" src="./img/olive-512.png" class="" width="100px" height="100px" draggable="true"
+                    ondragstart="drag(event)" style="z-index: 2; position: absolute;">
+            </div>
+
+            <div id="onion" class="col-1 float-left">
+                <img id="imgOnion" src="./img/onion-512.png" class="" width="100px" height="100px" draggable="true"
+                    ondragstart="drag(event)" style="z-index: 2; position: absolute;">
+            </div>
+
+            <div id="pepperoni" class="col-1 float-left">
+                <img id="imgPepperoni" src="./img/pepperoni-512.png" class="" width="100px" height="100px" draggable="true"
+                    ondragstart="drag(event)" style="z-index: 2; position: absolute;">
+            </div>
+
+            <div id="tomato" class="col-1 float-left">
+                <img id="imgTomato" src="./img/tomato-512.png" class="" width="100px" height="100px" draggable="true"
+                    ondragstart="drag(event)" style="z-index: 2; position: absolute;">
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+        
+    <!-- Responsive Voice Script -->
+    <script src="http://code.responsivevoice.org/responsivevoice.js"></script>
+
+    <script type="module">
+
+        import { Ingredient } from './models/ingredient.js'
+        import { getTypeOfIngredient } from './serveis/ingredientService.js';
+        import {  getTypeOfIngredientByKeyboard } from './serveis/ingredientService.js';
+        import {  getTypeOfIngredientByName } from './serveis/ingredientService.js';
+
+        let ingredientList = [];
+        
+        window.allowDrop = allowDrop;
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        window.drag = drag;
+        function drag(event) {
+            event.dataTransfer.setData("id", event.target.id);
+        }
+
+        window.drop = drop;
+        function drop(event) {
+
+            event.preventDefault();
+
+            let id = event.dataTransfer.getData("id");
+            let nodeCopy = document.getElementById(id).cloneNode(true);
+         
+            nodeCopy.id = "newId";
+            event.target.parentNode.appendChild(nodeCopy);
+
+            let ingredient = getTypeOfIngredient(id);
+
+            addIngredientToList(ingredient);
+            paintTicket();
+        }
+
+        function paintTicket() {
+
+            let ticketDiv = document.getElementById('ticketDiv');
+            let h3Total = document.getElementById('h3Total');
+
+            let pElement = document.createElement("p");
+            let node;
+
+            ingredientList.forEach(currentIngredient => {
+
+                pElement.setAttribute("id", "p" + currentIngredient.nom);
+                node = document.createTextNode('(' + currentIngredient.quantitat +' x ' + currentIngredient.nom + ' = ' + Math.round((currentIngredient.preu * currentIngredient.quantitat) * 100) / 100 + '€ ) ');
+                   
+                    if (document.getElementById('p' + currentIngredient.nom) != null) {
+                        let previousP = document.getElementById('p' + currentIngredient.nom);
+                        previousP.innerHTML = '(' + currentIngredient.quantitat +' x ' + currentIngredient.nom + ' = ' + Math.round((currentIngredient.preu * currentIngredient.quantitat) * 100) / 100 + '€ ) ';
+                    } else {
+                        pElement.appendChild(node);
+                        ticketDiv.appendChild(pElement);
+                    }
+                    
+            });
+
+            // Recalculam i repintam el total:
+            document.getElementById('h3Total').innerHTML = "";
+            let totalPriceNode = document.createTextNode('TOTAL = ' + Math.round((getTotalPrice()) * 100) / 100 + '€' );
+            h3Total.appendChild(totalPriceNode);
+            document.getElementById("divTotal").appendChild(h3Total);
+
+        }
+
+        function getTotalPrice() {
+            let totalPrice = ingredientList.reduce(function (total, ingredient) {
+                return ((ingredient.preu * ingredient.quantitat) + total);
+            }, 0);
+            return totalPrice + 5;
+        }
+
+       
+        window.playIngredients = playIngredients;
+        function playIngredients() {
+            
+            let voiceText = "Los ingredientes son: ";
+
+            ingredientList.forEach(function (ingredient){
+                voiceText += ingredient.quantitat;
+                voiceText += " de ";
+                voiceText += ingredient.nom + " , ";
+            });
+            responsiveVoice.speak(voiceText, "Spanish Female");
+        }
+
+        window.stopIngredients = stopIngredients;
+        function stopIngredients() {
+            responsiveVoice.cancel();
+        }
+
+
+        function addIngredientToList(ingredient) {
+
+            if (ingredient == undefined) {
+                alert("Por favor, introduzca ingredientes válidos!");
+                return;
+            }
+
+            let found = ingredientList.find(function (item){
+                return item.nom == ingredient.nom;
+            });
+
+            if (found != null ) {
+                ingredientList.forEach(function (currentIngredient){
+                    if (ingredient.nom == currentIngredient.nom) {
+                        currentIngredient.nom;
+                        currentIngredient.quantitat++;
+                    }
+                });
+            } else {
+                ingredientList.push(ingredient);
+                       
+                let buttonLess = document.createElement("button");
+
+                buttonLess.textContent = "-";
+
+                buttonLess.setAttribute("class", "float-right");
+                buttonLess.setAttribute("id", "buttonLess" + ingredient.nom);
+
+                buttonLess.addEventListener("click", function (event) {
+                let botoConcret = event.target.id.substring(10, event.target.id.length);
+                    console.log(botoConcret);
+
+                    ingredientList.forEach(function (currentIngredient) {
+                      
+                        if (currentIngredient.nom == botoConcret && currentIngredient.quantitat >= 1) {
+                            currentIngredient.quantitat--;
+                            paintTicket();
+
+                        } else if (currentIngredient.nom == botoConcret && currentIngredient.quantitat < 1 ){
+                            currentIngredient.quantitat--;
+                            document.getElementById("p" + currentIngredient.nom).innerText = "";
+
+                            ingredientList = ingredientList.filter(function (actualIngredient) {
+                                return actualIngredient.nom != ingredient.nom;
+                            });
+
+                            paintTicket();
+                        }
+                    });
+                });
+                ticketDiv.appendChild(buttonLess);
+            }
+        }
+
+        window.onkeypress = function(event) {
+
+            let key = event.keyCode ? event.keyCode : event.which;
+            let ingredient = getTypeOfIngredientByKeyboard(key);
+    
+            addIngredientToList(ingredient);
+            paintTicket();
+        }
+
+
+        function mediaRecord() {
+
+            if (navigator.mediaDevices) {
+
+                let record = document.getElementById("record");
+                let stop = document.getElementById("stop");
+                let soundClips = document.getElementById("soundClips");
+
+                let constraints = {audio: true, video: { width: 900, height: 500 } };
+                let chunks = [];
+
+                navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
+
+                    let mediaRecorder = new MediaRecorder(stream);
+
+                    let video;
+
+                    record.onclick = function() {
+                        mediaRecorder.start();
+
+                        let nodeVideo = document.createElement("video");
+                        nodeVideo.muted = "muted";
+
+                        nodeVideo.setAttribute("width", "200"),
+                        nodeVideo.setAttribute("heigth", "200");
+                        document.getElementById("soundClips").appendChild(nodeVideo);
+                        video = document.querySelector("video");
+                        video.srcObject = stream; 
+                        video.play();
+                    }
+
+                    stop.onclick = function() {
+                        mediaRecorder.stop();
+                        video.remove();
+                    }
+
+                    mediaRecorder.onstop = async function(e) {
+
+                        let clipContainer = document.createElement('article');
+                        let audio = document.createElement('audio');
+                        let deleteButton = document.createElement('button');
+                        
+                        clipContainer.classList.add("clip");
+                        audio.setAttribute("controls", "");
+                        deleteButton.innerHTML = "Delete";
+                        deleteButton.setAttribute("class", "btn btn-outline-danger");
+
+                        clipContainer.appendChild(audio);
+                        clipContainer.appendChild(deleteButton);
+
+                        soundClips.appendChild(clipContainer);
+
+                        audio.controls = true;
+                        
+
+                        let blob = new Blob(chunks, {type: "video/webm"} );
+
+                        let serverAnswer = await sendAudioRecording(blob);
+
+                        if (serverAnswer[0].confianca > 0.8) {
+
+                            let arrayIngredientes = serverAnswer[0].transcripcio.split(' ');
+                            console.log(arrayIngredientes);
+
+                            arrayIngredientes.forEach(function (ingredient){
+                                let ingredientObject = getTypeOfIngredientByName(ingredient);
+                                console.log(ingredientObject);
+                                addIngredientToList(ingredientObject);
+                                paintTicket();
+                            })
+                        } else {
+                            alert("No hemos entendido lo que querías decirnos.");
+                        }
+
+                        chunks = [];
+
+                        var audioURL = URL.createObjectURL(blob);
+                        audio.src = audioURL;
+
+                        deleteButton.onclick = function(event) {
+                            let evtTgt = event.target;
+                            evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode);
+                        }
+                    }
+                    mediaRecorder.ondataavailable = function(event) {
+                        chunks.push(event.data);
+                    }
+                })
+            }
+        }
+        
+        mediaRecord();
+
+        async function sendAudioRecording(blob) {
+
+            let formData = new FormData();
+            formData.append("arxiu", blob);
+            
+            const response = await fetch("http://35.194.72.13/pizzamaker/backend.php", {
+                method: 'POST',
+                body: formData,
+            });
+            
+            let finalResponseJson = await response.json();
+            return finalResponseJson;
+        }
+        
+    </script>
+
+</body>
+
+</html>
